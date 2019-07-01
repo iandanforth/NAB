@@ -1,86 +1,102 @@
-# NAB-detectors
+# Numenta and NumentaTM detectors
 
-This is a companion repository for the [Numenta Anomaly Benchmark
-(NAB)](https://github.com/numenta/NAB). If you are unfamiliar with NAB please
-refer to the main repository first.
+This directory holds the Python 2 code required to run the `numenta` and
+`numentaTM` detectors against the NAB data. In 2019 the main body of the
+benchmark's code was ported to Python 3 however these detectors rely on NuPIC
+which is Python 2 only.
 
-In 2019 the main body of the benchmark's code was ported to Python 3. The
-Numenta detector code was outside the scope of that project and was moved here.
-
-This repository can be used to replicate results listed on the scoreboard of
+This code can be used to replicate results listed on the scoreboard of
 the main repository for the following detectors:
 
     numenta
     numentaTM
-    htmjava  # See README.md in nab/detectors/htmjava for more additional setup
 
 ## Installation
 
-### Initial requirements
+We assume you have a working version of Python 3 installed as your default Python.
+If your default system Python is still Python 2 you can skip the virtual environment
+creation below.
 
-You need to manually install the following:
+### Requirements to install
 
 - [Python 2.7](https://www.python.org/download/)
-- [pip](https://pip.pypa.io/en/latest/installing.html)
-- [NumPy](http://www.numpy.org/)
-- [NuPIC](http://www.github.com/numenta/nupic)
+- [Virtualenv](https://pypi.org/project/virtualenv/)
 
-### Clone this repository
+### Install a virtual environment
 
-`git clone git@github.com:numenta/NAB-detectors.git`
+Create a new Python 2 virtual environment in this directory.
 
-### Install the Python requirements
+`virtualenv -p path/to/python2 env`
 
-    cd NAB-detectors
-    (sudo) pip install -r requirements.txt
+Activate that virtual environment.
 
-This will install the required modules.
+`./env/Scripts/activate`
+
+or
+
+`env\Scripts\activate.bat` on Windows.
+
+Confirm you have a local Python 2
+
+```
+$ python
+Python 2.7.13 (v2.7.13:a06454b1afa1, Dec 17 2016, 20:53:40) [MSC v.1500 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+```
+
+### Install NuPIC
+
+`pip install nupic`
+
+### Install detectors
+
+`python setup.py develop`
 
 ## Usage
 
-**Note**: The following assumes you have a working Python 2.7 environment.
+### Detection
 
-### NAB Benchmark Data 
+This directory contains a modified version of the `run.py` script which exists
+in the main NAB directory. It can be used to run *detection* only using the
+`numenta` and `numentaTM` detectors against NAB data.
 
-The canonical benchmark data is stored in the main NAB repository. You will need to
-clone the main NAB repository into a sibling directory.
+By default it will run both `numenta` and `numentaTM` detectors and output
+results to the main NAB/results directory.
 
-    cd ..
-    git clone git@github.com:numenta/NAB.git
-
-### Running a Detector
-
-One or more detectors can be run against the benchmark data by specifying
-which detector or detectors to run and the path to the main NAB data
-directory.
-
-For example, to run the `numenta` detector move into the `NAB-detectors`
-repository and run:
-
-    cd NAB-detectors
-    python run.py -d numenta --detect --rootDir path/to/NAB/
+`python run.py`
 
 Note: By default `run.py` tries to use all the cores on your machine. The above
 command should take about 20-30 minutes on a current powerful laptop with 4-8
 cores.
 
-For debugging you can run subsets of the data files by modifying and
-specifying specific label files (see section below). Please type:
+To run only one of the detectors use the `-d` option:
 
-    python run.py --help
+`python run.py -d numenta`
 
-to see all the options.
+To see all options of this script type:
 
-Note that to replicate results exactly as in the NAB paper you may need to checkout
-the specific version of NuPIC (and associated nupic.core) that is noted in the
-[Scoreboard](https://github.com/numenta/NAB#additional-scores):
+`python run.py --help`
 
-    cd /path/to/nupic/
-    git checkout -b nab {TAG NAME}
-    cd /path/to/nupic.core/
-    git checkout -b nab {TAG NAME}
+### Optimizing, Scoring and Normalizing
 
-##### Run a subset of NAB data files
+Once you have run either of the detectors herein against the NAB data you will need
+to exit the Python 2 virtual environment and move into the main NAB directory.
+
+```
+(env) /NAB/nab/detectors/numenta
+$ deactivate                                                          
+/NAB/nab/detectors/numenta      
+$ cd ../../../
+/NAB
+$
+```
+
+Then follow the instructions in the main README to run optimization, scoring, and normalization, e.g.:
+
+`python run.py -d numenta,numentaTM --optimize --score --normalize`
+
+### Run a subset of NAB data files
 
 For debugging it is sometimes useful to be able to run your algorithm on a
 subset of the NAB data files or on your own set of data files. You can do that
@@ -90,18 +106,12 @@ the files you want to run. This new file should be in exactly the same format as
 are interested in.
 
 **Example**: an example file containing two files is in
-`labels/combined_windows_tiny.json`. (Part of the main NAB repository) The following 
-command shows you how to run NAB on a subset of labels:
+`labels/combined_windows_tiny.json`. (Under of the main NAB directory) The
+following command shows you how to run NAB on a subset of labels:
 
-    cd /path/to/NAB-detectors
-    python run.py -d numenta --detect --rootDir path/to/NAB --windowsFile labels/combined_windows_tiny.json
+    python run.py -d numenta --detect --windowsFile labels/combined_windows_tiny.json
 
 This will run the `detect` phase of NAB on the data files specified in the above
 JSON file. Note that scoring and normalization are not supported with this
 option. Note also that you may see warning messages regarding the lack of labels
 for other files. You can ignore these warnings.
-
-### Detector Output
-
-After running a detector against the data the `path/to/NAB/results` directory
-will be updated with the results for the detector run.
