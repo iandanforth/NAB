@@ -26,7 +26,7 @@ below.
 ### Handling NAB datasets in R
 
 As specified in [the NAB technical
-whitepaper](https://drive.google.com/file/d/0B1_XUjaAXeV3dW1kX1B3VkYwOFE/view?usp=sharing),
+whitepaper](https://github.com/numenta/NAB/wiki#nab-whitepaper),
 datasets in NAB are CSV files with a "timestamp" column and a "value" column.
 The values are floats or integers, and the timestamps are strings of the form
 `YYYY-mm-dd HH:MM:SS.s` (in Python notation). In R notation, the timestamps
