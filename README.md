@@ -1,28 +1,31 @@
 The Numenta Anomaly Benchmark [![Build Status](https://travis-ci.org/numenta/NAB.svg?branch=master)](https://travis-ci.org/numenta/NAB)
 -----------------------------
 
-Welcome. This repository contains the data and scripts which comprise the Numenta
-Anomaly Benchmark (NAB). NAB is a novel benchmark for evaluating
+Welcome. This repository contains the data and scripts which comprise the
+Numenta Anomaly Benchmark (NAB). NAB is a novel benchmark for evaluating
 algorithms for anomaly detection in streaming, real-time applications. It is
-composed of over 50 labeled real-world and artificial timeseries data files plus a
-novel scoring mechanism designed for real-time applications.
+composed of over 50 labeled real-world and artificial timeseries data files
+plus a novel scoring mechanism designed for real-time applications.
 
-Included are the tools to allow you to easily run NAB on your own anomaly
-detection algorithms; see the [NAB entry points
+Included are the tools to allow you to run NAB on your own anomaly detection
+algorithms; see the [NAB entry points
 info](https://github.com/numenta/NAB/wiki#nab-entry-points). Competitive
 results tied to open source code will be posted on the
-[Scoreboard](https://github.com/numenta/NAB#scoreboard). Let us
-know about your work by emailing us at
-[nab@numenta.org](mailto:nab@numenta.org) or submitting a pull request.
+[Scoreboard](https://github.com/numenta/NAB#scoreboard). Let us know about
+your work by emailing us at [nab@numenta.org](mailto:nab@numenta.org) or
+submitting a pull request.
 
-This readme is a brief overview and contains details for setting up NAB. Please
-refer to the following for more details about NAB scoring, data, and motivation:
+This readme is a brief overview and contains details for setting up NAB.
+Please refer to the following for more details about NAB scoring, data, and
+motivation:
 
 - [Unsupervised real-time anomaly detection for streaming data](http://www.sciencedirect.com/science/article/pii/S0925231217309864) - The main paper, covering NAB and Numenta's HTM-based anomaly detection algorithm
 - [NAB Whitepaper](https://github.com/numenta/NAB/wiki#nab-whitepaper)
 - [Evaluating Real-time Anomaly Detection Algorithms](http://arxiv.org/abs/1510.03336) - Original publication of NAB
 
-We encourage you to publish your results on running NAB, and share them with us at [nab@numenta.org](nab@numenta.org). Please cite the following publication when referring to NAB:
+We encourage you to publish your results on running NAB, and share them with
+us at [nab@numenta.org](nab@numenta.org). Please cite the following
+publication when referring to NAB:
 
 Ahmad, S., Lavin, A., Purdy, S., & Agha, Z. (2017). Unsupervised real-time
 anomaly detection for streaming data. Neurocomputing, Available online 2 June
@@ -59,27 +62,30 @@ The NAB scores are normalized such that the maximum possible is 100.0 (i.e. the 
 
 \**** We have included the results for RCF using an [AWS proprietary implementation](https://docs.aws.amazon.com/kinesisanalytics/latest/sqlref/sqlrf-random-cut-forest.html); even though the algorithm code is not open source, the [algorithm description](http://proceedings.mlr.press/v48/guha16.pdf) is public and the code we used to run [NAB on RCF](nab/detectors/random_cut_forest) is open source.
 
-
 &dagger; Algorithm was an entry to the [2016 NAB Competition](http://numenta.com/blog/2016/08/10/numenta-anomaly-benchmark-nab-competition-2016-winners/).
 
-Please see [the wiki section on contributing algorithms](https://github.com/numenta/NAB/wiki/NAB-Contributions-Criteria#anomaly-detection-algorithms) for discussion on posting algorithms to the scoreboard.
+Please see [the wiki section on contributing
+algorithms](https://github.com/numenta/NAB/wiki/NAB-Contributions-Criteria#anomaly-detection-algorithms)
+for discussion on posting algorithms to the scoreboard.
 
 #### Corpus
 
-The NAB corpus of 58 timeseries data files is designed to provide data for research
-in streaming anomaly detection. It is comprised of both
-real-world and artifical timeseries data containing labeled anomalous periods of behavior.
+The NAB corpus of 58 timeseries data files is designed to provide data for
+research in streaming anomaly detection. It is comprised of both real-world
+and artifical timeseries data containing labeled anomalous periods of
+behavior.
 
 The majority of the data is real-world from a variety of sources such as AWS
 server metrics, Twitter volume, advertisement clicking metrics, traffic data,
-and more. All data is included in the repository, with more details in the [data
-readme](https://github.com/numenta/NAB/tree/master/data). We are in the process
-of adding more data, and actively searching for more data. Please contact us at
-[nab@numenta.org](mailto:nab@numenta.org) if you have similar data (ideally with
-known anomalies) that you would like to see incorporated into NAB.
+and more. All data is included in the repository, with more details in the
+[data readme](https://github.com/numenta/NAB/tree/master/data). We are in the
+process of adding more data, and actively searching for more data. Please
+contact us at [nab@numenta.org](mailto:nab@numenta.org) if you have similar
+data (ideally with known anomalies) that you would like to see incorporated
+into NAB.
 
-The NAB version will be updated whenever new data (and corresponding labels) is
-added to the corpus or other significant changes are made.
+The NAB version will be updated whenever new data (and corresponding labels)
+is added to the corpus or other significant changes are made.
 
 #### Additional Scores
 
@@ -205,14 +211,22 @@ to see all the options.
 
 In 2019 much of NAB was ported to Python 3, however NuPIC itself was not.
 
-NuPIC dependent detectors are available in the [NAB-detectors]() repository.
-
-Please refer to that repository on how to run any of the following detectors:
+NuPIC dependent detectors include:
 
     numenta
     numentaTM
     htmjava
 
+Instructions on how to run the `numenta` and `numentaTM` detectors under
+Python 2 can be found in the `nab/detectors/numenta` directory.
+
+Instructions on how to run the `htmjava` detector can be found in the
+`nab/detectors/htmjava` directory.
+
+##### Run TwitterADVec with NAB
+
+Instructions on how to run the R based `twitterADVec` detector can be found in
+the `nab/detectors/twitter` directory.
 
 ##### Run full NAB
 
